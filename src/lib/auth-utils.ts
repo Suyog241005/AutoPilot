@@ -1,23 +1,22 @@
 import { headers } from "next/headers";
-import { auth } from "./auth"
+import { auth } from "./auth";
 import { redirect } from "next/navigation";
 
-
-export const requireAuth = async()=>{
+export const requireAuth = async () => {
   const session = await auth.api.getSession({
-    headers: await headers()
+    headers: await headers(),
   });
-  if(!session){
+  if (!session) {
     redirect("/signin");
   }
   return session;
-}
+};
 
-export const requireUnauth = async()=>{
+export const requireUnauth = async () => {
   const session = await auth.api.getSession({
-    headers: await headers()
+    headers: await headers(),
   });
-  if(session){
+  if (session) {
     redirect("/");
   }
-}
+};

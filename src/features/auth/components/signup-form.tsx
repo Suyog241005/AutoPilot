@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import Image from "next/image";
 
 const SignUpSchema = z
   .object({
@@ -66,7 +67,7 @@ export const SignUpForm = () => {
           console.log(ctx);
           toast.error(ctx.error.message);
         },
-      }
+      },
     );
   };
 
@@ -90,6 +91,12 @@ export const SignUpForm = () => {
                     type="button"
                     disabled={isPending}
                   >
+                    <Image
+                      src={"/logos/github.svg"}
+                      alt="Github"
+                      width={20}
+                      height={20}
+                    />
                     Continue with Github
                   </Button>
                   <Button
@@ -98,6 +105,12 @@ export const SignUpForm = () => {
                     type="button"
                     disabled={isPending}
                   >
+                    <Image
+                      src={"/logos/google.svg"}
+                      alt="Google"
+                      width={20}
+                      height={20}
+                    />
                     Continue with Google
                   </Button>
                 </div>
