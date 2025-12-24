@@ -61,6 +61,8 @@ export const SignInForm = () => {
         },
       },
     );
+    // clear input fields
+    form.reset();
   };
 
   const isPending = form.formState.isSubmitting;
