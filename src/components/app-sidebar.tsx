@@ -23,6 +23,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { useHasActiveSubscription } from "@/features/subscriptions/hooks/use-has-active-subscription";
 
 const menuItems = [
   {
@@ -50,6 +51,8 @@ const menuItems = [
 export const AppSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const { hasActiveSubscription, isLoading } = useHasActiveSubscription();
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -95,16 +98,18 @@ export const AppSidebar = () => {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              tooltip={"Upgrade to pro"}
-              className="gap-x-4 h-10 px-4"
-              onClick={() => {}}
-            >
-              <StarIcon className="size-4" />
-              <span>Upgrade to pro</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          {!hasActiveSubscription && !isLoading && (
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                tooltip={"Upgrade to pro"}
+                className="gap-x-4 h-10 px-4"
+                onClick={() => authClient.checkout({ slug: "AutoPilot-Pro" })}
+              >
+                <StarIcon className="size-4" />
+                <span>Upgrade to pro</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
         </SidebarMenu>
         <SidebarMenu>
           <SidebarMenuItem>
