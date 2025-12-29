@@ -9,7 +9,8 @@ import z from "zod";
 import { PAGINATION } from "@/config/constants";
 
 export const workflowRouter = createTRPCRouter({
-  create: premiumProcedure.mutation(({ ctx }) => {
+  create: premiumProcedure
+    .mutation(({ ctx }) => {
     return prisma.workflow.create({
       data: {
         name: generateSlug(3),
@@ -43,7 +44,7 @@ export const workflowRouter = createTRPCRouter({
   getOne: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(({ ctx, input }) => {
-      return prisma.workflow.findFirst({
+      return prisma.workflow.findUniqueOrThrow({
         where: {
           id: input.id,
           userId: ctx.auth.user.id,
