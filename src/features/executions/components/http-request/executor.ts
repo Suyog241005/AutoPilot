@@ -80,7 +80,9 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
           "Content-Type": "application/json",
         };
       }
+      console.log(endpoint);
       const response = await ky(endpoint, options);
+      console.log(response);
       const contentType = response.headers.get("content-type");
       const responseData = contentType?.includes("application/json")
         ? await response.json()
