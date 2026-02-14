@@ -1,7 +1,7 @@
 "use client";
 
 import { CredentialType } from "@/generated/prisma/enums";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   useCreateCredential,
@@ -93,10 +93,11 @@ export const CredentialForm = ({ initialData }: CredentialProps) => {
         id: initialData.id,
         ...values,
       });
+      router.push("/credentials");
     } else {
       await createCredential.mutateAsync(values, {
-        onSuccess: (data)=>{
-          router.push(`/credentials/${data.id}`)
+        onSuccess: (data) => {
+          router.push(`/credentials/${data.id}`);
         },
         onError: (error) => {
           handleError(error);
@@ -146,7 +147,7 @@ export const CredentialForm = ({ initialData }: CredentialProps) => {
                     >
                       <FormControl>
                         <SelectTrigger className="w-full">
-                          <SelectValue />
+                          <SelectValue placeholder={"Select a type"} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -201,4 +202,10 @@ export const CredentialForm = ({ initialData }: CredentialProps) => {
       </Card>
     </>
   );
+};
+
+export const CredentialView = ({ credentialId }: { credentialId: string }) => {
+  const { data: credential } = useSuspenseCredential(credentialId);
+
+  return <CredentialForm initialData={credential} />;
 };

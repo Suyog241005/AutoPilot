@@ -19,8 +19,14 @@ import {
 import { useRouter } from "next/navigation";
 import { useCredentialsParams } from "../hooks/use-credentials-params";
 import { useEntitySearch } from "@/hooks/use-entity-search";
-import { Credential, CredentialType } from "@/generated/prisma/client";
+import type { Credential, CredentialType } from "@/generated/prisma/client";
 import Image from "next/image";
+
+// const CredentialType = {
+//   OPENAI: "OPENAI",
+//   ANTHROPIC: "ANTHROPIC",
+//   GEMINI: "GEMINI",
+// };
 
 export const CredentialsSearch = () => {
   const [params, setParams] = useCredentialsParams();
@@ -118,9 +124,9 @@ export const CredentialsEmpty = () => {
 };
 
 const credentialLogos: Record<CredentialType, string> = {
-  [CredentialType.OPENAI]: "/logos/openai.svg",
-  [CredentialType.ANTHROPIC]: "/logos/anthropic.svg",
-  [CredentialType.GEMINI]: "/logos/gemini.svg",
+  OPENAI: "/logos/openai.svg",
+  ANTHROPIC: "/logos/anthropic.svg",
+  GEMINI: "/logos/gemini.svg",
 };
 
 export const CredentialItem = ({ data }: { data: Credential }) => {
