@@ -34,15 +34,13 @@ const triggerNodes: NodeTypeOption[] = [
   {
     type: NodeType.GOOGLE_FORM_TRIGGER,
     label: "Google Form",
-    description:
-      "Runs the flow when Google Form is submitted",
+    description: "Runs the flow when Google Form is submitted",
     icon: "/logos/googleform.svg",
   },
   {
     type: NodeType.STRIPE_TRIGGER,
     label: "Stripe",
-    description:
-      "Runs the flow when Stripe event is captured",
+    description: "Runs the flow when Stripe event is captured",
     icon: "/logos/stripe.svg",
   },
 ];
@@ -72,6 +70,18 @@ const executionNodes: NodeTypeOption[] = [
     description: "Uses Anthropic to generate a response",
     icon: "/logos/anthropic.svg",
   },
+  {
+    type: NodeType.DISCORD,
+    label: "Discord",
+    description: "Send a message to Discord",
+    icon: "/logos/discord.svg",
+  },
+  {
+    type: NodeType.SLACK,
+    label: "Slack",
+    description: "Send a message to Slack",
+    icon: "/logos/slack.svg",
+  },
 ];
 
 interface NodeSelectorProps {
@@ -93,7 +103,7 @@ export const NodeSelector = ({
       if (selection.type === NodeType.MANUAL_TRIGGER) {
         const nodes = getNodes();
         const hasManualTrigger = nodes.some(
-          (node) => node.type === NodeType.MANUAL_TRIGGER
+          (node) => node.type === NodeType.MANUAL_TRIGGER,
         );
 
         if (hasManualTrigger) {
@@ -103,7 +113,7 @@ export const NodeSelector = ({
       }
       setNodes((nodes) => {
         const hasInitialTrigger = nodes.some(
-          (node) => node.type === NodeType.INITIAL
+          (node) => node.type === NodeType.INITIAL,
         );
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
@@ -126,7 +136,7 @@ export const NodeSelector = ({
       });
       onOpenChange(false);
     },
-    [setNodes, onOpenChange, getNodes, screenToFlowPosition]
+    [setNodes, onOpenChange, getNodes, screenToFlowPosition],
   );
 
   return (
