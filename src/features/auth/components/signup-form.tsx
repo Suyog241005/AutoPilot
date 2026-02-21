@@ -50,6 +50,39 @@ export const SignUpForm = () => {
     },
   });
 
+  const signUpGithub = async () => {
+    await authClient.signIn.social(
+      {
+        provider: "github",
+      },
+      {
+        onSuccess: () => {
+          router.push("/");
+        },
+        onError: (ctx) => {
+          console.log(ctx.error);
+          toast.error(ctx.error.message);
+        },
+      },
+    );
+  };
+  const signUpGoogle = async () => {
+    await authClient.signIn.social(
+      {
+        provider: "google",
+      },
+      {
+        onSuccess: () => {
+          router.push("/");
+        },
+        onError: (ctx) => {
+          console.log(ctx.error);
+          toast.error(ctx.error.message);
+        },
+      },
+    );
+  };
+
   const onSubmit = async (values: SignUpFormValues) => {
     console.log(values);
     await authClient.signUp.email(
@@ -90,6 +123,7 @@ export const SignUpForm = () => {
                     className="w-full"
                     type="button"
                     disabled={isPending}
+                    onClick={signUpGithub}
                   >
                     <Image
                       src={"/logos/github.svg"}
@@ -104,6 +138,7 @@ export const SignUpForm = () => {
                     className="w-full"
                     type="button"
                     disabled={isPending}
+                    onClick={signUpGoogle}
                   >
                     <Image
                       src={"/logos/google.svg"}
