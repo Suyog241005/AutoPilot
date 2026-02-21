@@ -84,7 +84,11 @@ export const CredentialForm = ({ initialData }: CredentialProps) => {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: {
+      name: isEdit ? initialData.name : "",
+      value: isEdit ? initialData.value : "",
+      type: isEdit ? initialData.type : CredentialType.OPENAI,
+    },
   });
 
   const onSubmit = async (values: FormValues) => {
@@ -97,7 +101,7 @@ export const CredentialForm = ({ initialData }: CredentialProps) => {
     } else {
       await createCredential.mutateAsync(values, {
         onSuccess: (data) => {
-          router.push(`/credentials/${data.id}`);
+          router.push(`/credentials`);
         },
         onError: (error) => {
           handleError(error);
