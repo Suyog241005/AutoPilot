@@ -1,0 +1,25 @@
+/**
+ * Hook to fetch all credentials using suspense
+ */
+import { useTRPC } from "@/trpc/client";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useExecutionsParams } from "./use-executions-params";
+
+/**
+ * Hook to fetch all exectuions using suspense
+ */
+
+export const useSuspenseExecutions = () => {
+  const trpc = useTRPC();
+  const [params] = useExecutionsParams();
+
+  return useSuspenseQuery(trpc.executions.getMany.queryOptions(params));
+};
+
+/**
+ * Hook to fetch one execution using suspense
+ */
+export const useSuspenseExecution = (id: string) => {
+  const trpc = useTRPC();
+  return useSuspenseQuery(trpc.executions.getOne.queryOptions({ id }));
+};

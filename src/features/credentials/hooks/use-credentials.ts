@@ -12,6 +12,9 @@ import { toast } from "sonner";
 import { useCredentialsParams } from "./use-credentials-params";
 import { CredentialType } from "@/generated/prisma/enums";
 
+/**
+ * Hook to fetch all credentials using suspense
+ */
 export const useSuspenseCredentials = () => {
   const trpc = useTRPC();
   const [params] = useCredentialsParams();

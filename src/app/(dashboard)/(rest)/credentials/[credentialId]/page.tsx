@@ -7,6 +7,7 @@ import {
   CredentialsError,
   CredentialsLoading,
 } from "@/features/credentials/components/credentials";
+import { prefetchCredential } from "@/features/credentials/server/prefetch";
 
 interface CredentialIdPageProps {
   params: Promise<{ credentialId: string }>;
@@ -17,6 +18,7 @@ export default async function CredentialsPage({
 }: CredentialIdPageProps) {
   const { credentialId } = await params;
   await requireAuth();
+  prefetchCredential(credentialId);
 
   return (
     <HydrateClient>

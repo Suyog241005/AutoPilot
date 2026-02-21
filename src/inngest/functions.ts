@@ -17,6 +17,19 @@ export const executeWorkflow = inngest.createFunction(
   {
     id: "execute-workflow",
     retries: 0, //Remove in prod
+    onFailure: async ({ event, step }) => {
+      return await prisma.execution.update({
+        where: {
+          inngestEventId: event.data.event.id,
+        },
+        data: {
+          status: "FAILED",
+          completedAt: new Date(),
+          errorStack: event.data.error.stack,
+          error: event.data.error.message,
+        },
+      });
+    },
   },
   {
     event: "workflow/exectute.workflow",
@@ -30,12 +43,26 @@ export const executeWorkflow = inngest.createFunction(
       discordChannel(),
       slackChannel(),
     ],
+    
   },
   async ({ event, step, publish }) => {
+    const inngestEventId = event.id;
     const workflowId = event.data.workflowId;
-    if (!workflowId) {
-      return new NonRetriableError("Workflow Id is missing");
+    if (!inngestEventId || !workflowId) {
+      return new NonRetriableError(
+        "Inngest Event Id or Workflow Id is missing",
+      );
     }
+
+    await step.run("create-exectuiton", async () => {
+      return await prisma.execution.create({
+        data: {
+          workflowId,
+          inngestEventId,
+        },
+      });
+    });
+
     const sortedNodes = await step.run("prepare-workflow", async () => {
       const workflow = await prisma.workflow.findUniqueOrThrow({
         where: {
@@ -76,6 +103,20 @@ export const executeWorkflow = inngest.createFunction(
         publish,
       });
     }
+
+    await step.run("update-execution", async () => {
+      return await prisma.execution.update({
+        where: {
+          inngestEventId,
+          workflowId,
+        },
+        data: {
+          status: "SUCCESS",
+          completedAt: new Date(),
+          output: context,
+        },
+      });
+    });
 
     return { workflowId, result: context };
   },
