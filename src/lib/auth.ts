@@ -30,7 +30,7 @@ export const auth = betterAuth({
         checkout({
           products: [
             {
-              productId: "53e9402f-6d52-4d80-b349-9bddb97edb16",
+              productId: "a9c83797-9c62-4083-9ec1-821ea0b37ec4",
               slug: "AutoPilot-Pro",
             },
           ],
