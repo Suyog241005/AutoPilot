@@ -20,4 +20,23 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
+  plugins: [
+    polar({
+      client: polarClient,
+      createCustomerOnSignUp: true,
+      use: [
+        checkout({
+          products: [
+            {
+              productId: "a9c83797-9c62-4083-9ec1-821ea0b37ec4",
+              slug: "AutoPilot-Pro",
+            },
+          ],
+          successUrl: process.env.POLAR_SUCCESS_URL!,
+          authenticatedUsersOnly: true,
+        }),
+        portal(),
+      ],
+    }),
+  ],
 });
